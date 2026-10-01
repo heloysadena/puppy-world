@@ -1,1 +1,2606 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>🐶 Puppy World | Meu Pequeno Mundo</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top left,#ffe8f3,transparent 35%),
+        radial-gradient(circle at bottom right,#e7ddff,transparent 35%),
+        linear-gradient(135deg,#fff8fc,#f7f1ff);
+    color:#4d4050;
+    min-height:100vh;
+}
+
+button{
+    border:0;
+    cursor:pointer;
+    font-family:inherit;
+}
+
+.container{
+    width:min(1200px,94%);
+    margin:auto;
+    padding:25px 0 50px;
+}
+
+/* HEADER */
+
+header{
+    background:#ffffffd9;
+    backdrop-filter:blur(15px);
+    border-radius:25px;
+    padding:18px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 12px 35px #9b789b20;
+    margin-bottom:20px;
+    position:sticky;
+    top:10px;
+    z-index:100;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-icon{
+    width:50px;
+    height:50px;
+    border-radius:17px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#ffd8e9,#e5d5ff);
+    font-size:28px;
+}
+
+.logo h1{
+    font-size:20px;
+}
+
+.logo p{
+    font-size:12px;
+    opacity:.65;
+}
+
+.coins{
+    background:#fff2b9;
+    border-radius:18px;
+    padding:11px 17px;
+    font-weight:bold;
+    box-shadow:0 5px 15px #d8b63a25;
+}
+
+/* LAYOUT */
+
+.game{
+    display:grid;
+    grid-template-columns:1.6fr .9fr;
+    gap:20px;
+}
+
+.card{
+    background:#ffffffdb;
+    backdrop-filter:blur(15px);
+    border-radius:28px;
+    box-shadow:0 15px 40px #8568861c;
+    border:1px solid #ffffff;
+}
+
+/* ROOM */
+
+.room{
+    min-height:650px;
+    padding:18px;
+}
+
+.room-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.room-title{
+    font-size:20px;
+    font-weight:900;
+}
+
+.day{
+    background:#f3eaff;
+    padding:8px 13px;
+    border-radius:15px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.pet-stage{
+    height:550px;
+    position:relative;
+    overflow:hidden;
+    border-radius:25px;
+    background:
+        linear-gradient(to bottom,#dff5ff 0%,#f4e9ff 57%,#f9dce8 57%,#f7d4df 100%);
+    box-shadow:inset 0 0 40px #76577a14;
+}
+
+/* JANELA */
+
+.window{
+    position:absolute;
+    top:30px;
+    left:35px;
+    width:150px;
+    height:120px;
+    background:#cceeff;
+    border:9px solid #fff;
+    border-radius:20px;
+    box-shadow:0 8px 20px #64748b22;
+    overflow:hidden;
+}
+
+.window:before{
+    content:"☁️   ☁️";
+    position:absolute;
+    top:18px;
+    left:10px;
+    font-size:22px;
+}
+
+.window:after{
+    content:"☀️";
+    position:absolute;
+    top:55px;
+    right:20px;
+    font-size:35px;
+}
+
+/* QUADROS */
+
+.picture{
+    position:absolute;
+    top:45px;
+    right:45px;
+    background:white;
+    padding:8px;
+    border-radius:10px;
+    box-shadow:0 6px 15px #76577a22;
+    font-size:34px;
+}
+
+/* TAPETE */
+
+.rug{
+    position:absolute;
+    width:70%;
+    height:130px;
+    bottom:20px;
+    left:15%;
+    background:#e9cce1;
+    border-radius:50%;
+    opacity:.75;
+}
+
+/* CAMA */
+
+.scene-item{
+    position:absolute;
+    display:none;
+    z-index:4;
+    user-select:none;
+    filter:drop-shadow(0 8px 7px #8d6c6230);
+    transition:.3s;
+}
+
+.scene-bed{
+    font-size:105px;
+    bottom:65px;
+    right:10%;
+}
+
+.scene-teddy{
+    font-size:55px;
+    bottom:125px;
+    left:12%;
+}
+
+.scene-ball{
+    font-size:50px;
+    bottom:55px;
+    left:35%;
+    cursor:pointer;
+}
+
+.scene-item:hover{
+    transform:scale(1.1);
+}
+
+/* CACHORRO */
+
+.dog-wrapper{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-45%);
+    width:180px;
+    height:200px;
+    z-index:10;
+    transition:1s ease;
+}
+
+.pet{
+    font-size:125px;
+    text-align:center;
+    cursor:pointer;
+    user-select:none;
+    filter:drop-shadow(0 12px 10px #80607040);
+    animation:dogIdle 2.8s infinite ease-in-out;
+    transition:.3s;
+}
+
+.pet:hover{
+    transform:scale(1.06);
+}
+
+.pet:active{
+    transform:scale(.92);
+}
+
+@keyframes dogIdle{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-7px)}
+}
+
+/* ACESSÓRIOS */
+
+.accessory{
+    position:absolute;
+    z-index:15;
+    display:none;
+    pointer-events:none;
+}
+
+.bow{
+    top:25px;
+    right:10px;
+    font-size:47px;
+    transform:rotate(-10deg);
+}
+
+.crown{
+    top:-35px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:50px;
+}
+
+/* OLHOS DE SONO */
+
+.sleep-eyes{
+    display:none;
+    position:absolute;
+    top:57%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    z-index:20;
+    color:#574652;
+    font-size:23px;
+    font-weight:900;
+    letter-spacing:10px;
+}
+
+.sleep-z{
+    display:none;
+    position:absolute;
+    right:-5px;
+    top:10px;
+    font-size:25px;
+    animation:zFloat 2s infinite;
+}
+
+@keyframes zFloat{
+    0%{opacity:0;transform:translateY(15px)}
+    50%{opacity:1}
+    100%{opacity:0;transform:translateY(-20px)}
+}
+
+/* DORMINDO */
+
+.dog-wrapper.sleeping{
+    transform:translate(105px,95px) scale(.72);
+}
+
+.dog-wrapper.sleeping .pet{
+    animation:sleepingDog 3s infinite ease-in-out;
+}
+
+.dog-wrapper.sleeping .sleep-eyes,
+.dog-wrapper.sleeping .sleep-z{
+    display:block;
+}
+
+@keyframes sleepingDog{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(5px)}
+}
+
+/* FALA */
+
+.speech{
+    position:absolute;
+    left:50%;
+    top:28%;
+    transform:translateX(-50%);
+    background:white;
+    padding:13px 18px;
+    border-radius:18px;
+    font-weight:bold;
+    box-shadow:0 8px 20px #76577a22;
+    z-index:30;
+    white-space:nowrap;
+}
+
+.speech:after{
+    content:"";
+    position:absolute;
+    bottom:-8px;
+    left:50%;
+    transform:translateX(-50%) rotate(45deg);
+    width:16px;
+    height:16px;
+    background:white;
+}
+
+/* STATUS */
+
+.status{
+    margin-top:15px;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:9px;
+}
+
+.stat{
+    background:#fff;
+    padding:10px;
+    border-radius:16px;
+}
+
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    font-size:11px;
+    margin-bottom:6px;
+    font-weight:bold;
+}
+
+.bar{
+    height:9px;
+    background:#eee8ef;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.fill{
+    height:100%;
+    width:100%;
+    border-radius:20px;
+    transition:.5s;
+}
+
+/* AÇÕES */
+
+.actions{
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:9px;
+}
+
+.action{
+    background:#fff;
+    padding:13px 7px;
+    border-radius:17px;
+    box-shadow:0 6px 18px #76577a12;
+    transition:.2s;
+    font-weight:bold;
+    color:#564657;
+}
+
+.action:hover{
+    transform:translateY(-4px);
+    box-shadow:0 10px 22px #76577a22;
+}
+
+.action:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+}
+
+.action .emoji{
+    display:block;
+    font-size:25px;
+    margin-bottom:4px;
+}
+
+/* ACORDAR */
+
+.wake-button{
+    display:none;
+    margin:15px auto 0;
+    background:linear-gradient(90deg,#b69ae8,#e78db4);
+    color:white;
+    padding:13px 28px;
+    border-radius:15px;
+    font-weight:900;
+    box-shadow:0 7px 20px #b69ae833;
+}
+
+.wake-button.show{
+    display:block;
+}
+
+/* PAINEL */
+
+.panel{
+    padding:20px;
+}
+
+.panel h2{
+    font-size:18px;
+    margin-bottom:14px;
+}
+
+.section{
+    margin-bottom:22px;
+}
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+.section-title h3{
+    font-size:15px;
+}
+
+.small{
+    font-size:11px;
+    opacity:.6;
+}
+
+/* LOJA */
+
+.shop{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+}
+
+.item{
+    background:#faf6fc;
+    border:1px solid #eee3f1;
+    border-radius:17px;
+    padding:10px;
+    text-align:center;
+}
+
+.item-icon{
+    font-size:35px;
+}
+
+.item-name{
+    font-size:11px;
+    font-weight:bold;
+    margin:4px 0;
+}
+
+.buy{
+    background:#eeb3cf;
+    color:white;
+    border-radius:10px;
+    padding:7px;
+    width:100%;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.buy:hover{
+    background:#df91b7;
+}
+
+.buy.owned{
+    background:#bda9d9;
+}
+
+/* INVENTÁRIO */
+
+.inventory{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+}
+
+.inv{
+    background:#f5edff;
+    border-radius:12px;
+    padding:8px 10px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+/* MISSÕES */
+
+.mission{
+    background:#fff8e8;
+    padding:11px;
+    border-radius:14px;
+    margin-bottom:7px;
+    font-size:11px;
+}
+
+.mission strong{
+    display:block;
+    margin-bottom:3px;
+}
+
+/* BOTÕES EXTRA */
+
+.extra-buttons{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+}
+
+.extra{
+    background:#eee5ff;
+    border-radius:14px;
+    padding:11px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+/* TOAST */
+
+#toast{
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%) translateY(100px);
+    background:#493b4a;
+    color:white;
+    padding:13px 20px;
+    border-radius:15px;
+    font-weight:bold;
+    z-index:9999;
+    opacity:0;
+    transition:.4s;
+    box-shadow:0 10px 30px #0003;
+}
+
+#toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:#33283777;
+    backdrop-filter:blur(5px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:500;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    background:white;
+    width:min(450px,100%);
+    padding:25px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 20px 60px #0003;
+}
+
+.modal-box h2{
+    margin-bottom:15px;
+}
+
+.modal-box input{
+    width:100%;
+    padding:13px;
+    border:2px solid #eadcf0;
+    border-radius:13px;
+    outline:none;
+    margin-bottom:10px;
+}
+
+.modal-buttons{
+    display:flex;
+    gap:8px;
+}
+
+.modal-buttons button{
+    flex:1;
+    padding:12px;
+    border-radius:12px;
+    font-weight:bold;
+}
+
+.save-name{
+    background:#e8afd0;
+    color:white;
+}
+
+.cancel{
+    background:#eee;
+}
+
+/* RESPONSIVO */
+
+@media(max-width:900px){
+
+    .game{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .container{
+        width:96%;
+    }
+
+    header{
+        padding:13px;
+    }
+
+    .logo h1{
+        font-size:16px;
+    }
+
+    .logo p{
+        display:none;
+    }
+
+    .room{
+        padding:10px;
+    }
+
+    .pet-stage{
+        height:500px;
+    }
+
+    .window{
+        width:110px;
+        height:90px;
+        left:15px;
+    }
+
+    .picture{
+        right:15px;
+        font-size:25px;
+    }
+
+    .status{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .actions{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .scene-bed{
+        font-size:80px;
+        right:3%;
+    }
+
+    .scene-teddy{
+        font-size:45px;
+        left:5%;
+    }
+
+    .scene-ball{
+        font-size:40px;
+        left:35%;
+    }
+
+    .dog-wrapper.sleeping{
+        transform:translate(65px,100px) scale(.65);
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            🐶
+        </div>
+
+        <div>
+            <h1>PUPPY WORLD</h1>
+            <p>Meu pequeno mundo 🐾</p>
+        </div>
+
+    </div>
+
+    <div class="coins">
+        ⭐ <span id="coins">100</span>
+    </div>
+
+</header>
+
+
+<div class="game">
+
+<!-- =========================
+     QUARTO
+========================= -->
+
+<div class="card room">
+
+    <div class="room-top">
+
+        <div>
+            <div class="room-title">
+                🏡 Quartinho do <span id="petNameTitle">Puppy</span>
+            </div>
+        </div>
+
+        <div class="day">
+            ☀️ Dia <span id="day">1</span>
+        </div>
+
+    </div>
+
+
+    <div class="pet-stage">
+
+        <div class="window"></div>
+
+        <div class="picture">
+            🐾
+        </div>
+
+        <div class="rug"></div>
+
+
+        <!-- OBJETOS -->
+
+        <div class="scene-item scene-bed" id="sceneBed">
+            🛏️
+        </div>
+
+        <div class="scene-item scene-teddy" id="sceneTeddy">
+            🧸
+        </div>
+
+        <div
+            class="scene-item scene-ball"
+            id="sceneBall"
+            onclick="playWithBall()">
+            ⚽
+        </div>
+
+
+        <!-- CACHORRO -->
+
+        <div class="dog-wrapper" id="dogWrapper">
+
+            <div class="accessory bow" id="dogBow">
+                🎀
+            </div>
+
+            <div class="accessory crown" id="dogCrown">
+                👑
+            </div>
+
+            <div class="pet"
+                 id="pet"
+                 onclick="petClick()"
+                 role="button"
+                 tabindex="0">
+                🐶
+            </div>
+
+            <div class="sleep-eyes" id="sleepEyes">
+                ―  ―
+            </div>
+
+            <div class="sleep-z">
+                Z
+            </div>
+
+        </div>
+
+
+        <div class="speech" id="speech">
+            Oi! Vamos brincar? 🐾
+        </div>
+
+    </div>
+
+
+    <!-- STATUS -->
+
+    <div class="status">
+
+        <div class="stat">
+            <div class="stat-top">
+                <span>💗 Felicidade</span>
+                <span id="happyValue">90</span>
+            </div>
+            <div class="bar">
+                <div class="fill"
+                     id="happyBar"
+                     style="background:#ef9fc3;width:90%">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="stat">
+            <div class="stat-top">
+                <span>🍖 Fome</span>
+                <span id="hungerValue">85</span>
+            </div>
+            <div class="bar">
+                <div class="fill"
+                     id="hungerBar"
+                     style="background:#f2b56b;width:85%">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="stat">
+            <div class="stat-top">
+                <span>💧 Sede</span>
+                <span id="thirstValue">85</span>
+            </div>
+            <div class="bar">
+                <div class="fill"
+                     id="thirstBar"
+                     style="background:#7fc6e8;width:85%">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="stat">
+            <div class="stat-top">
+                <span>🫧 Limpeza</span>
+                <span id="cleanValue">75</span>
+            </div>
+            <div class="bar">
+                <div class="fill"
+                     id="cleanBar"
+                     style="background:#b8a1e8;width:75%">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="stat">
+            <div class="stat-top">
+                <span>⚡ Energia</span>
+                <span id="energyValue">80</span>
+            </div>
+            <div class="bar">
+                <div class="fill"
+                     id="energyBar"
+                     style="background:#edcf68;width:80%">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- AÇÕES -->
+
+    <div class="actions">
+
+        <button class="action"
+                onclick="feedPet()">
+
+            <span class="emoji">🍖</span>
+            Comer
+
+        </button>
+
+
+        <button class="action"
+                onclick="giveWater()">
+
+            <span class="emoji">💧</span>
+            Água
+
+        </button>
+
+
+        <button class="action"
+                onclick="bathPet()">
+
+            <span class="emoji">🛁</span>
+            Banho
+
+        </button>
+
+
+        <button class="action"
+                onclick="playPet()">
+
+            <span class="emoji">🎾</span>
+            Brincar
+
+        </button>
+
+
+        <button class="action"
+                onclick="petClick()">
+
+            <span class="emoji">❤️</span>
+            Carinho
+
+        </button>
+
+
+        <button class="action"
+                id="sleepButton"
+                onclick="sleepPet()">
+
+            <span class="emoji">🌙</span>
+            Dormir
+
+        </button>
+
+    </div>
+
+
+    <div style="text-align:center">
+
+        <button
+            class="wake-button"
+            id="wakeButton"
+            onclick="wakePet()">
+
+            ☀️ Acordar
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PAINEL
+========================= -->
+
+<div class="card panel">
+
+
+    <!-- PERFIL -->
+
+    <div class="section">
+
+        <div class="section-title">
+
+            <h3>🐶 Meu Pet</h3>
+
+            <span class="small">
+                <span id="petName">Puppy</span>
+            </span>
+
+        </div>
+
+        <button
+            class="extra"
+            style="width:100%"
+            onclick="openNameModal()">
+
+            ✏️ Mudar nome
+
+        </button>
+
+    </div>
+
+
+    <!-- LOJA -->
+
+    <div class="section">
+
+        <div class="section-title">
+
+            <h3>🛍️ Loja</h3>
+
+            <span class="small">
+                Compre coisas para o quarto
+            </span>
+
+        </div>
+
+
+        <div class="shop">
+
+
+            <div class="item">
+
+                <div class="item-icon">
+                    🧸
+                </div>
+
+                <div class="item-name">
+                    Ursinho
+                </div>
+
+                <button
+                    class="buy"
+                    id="buy-Ursinho"
+                    onclick="buyItem('Ursinho',20)">
+
+                    ⭐ 20
+
+                </button>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="item-icon">
+                    🦴
+                </div>
+
+                <div class="item-name">
+                    Osso especial
+                </div>
+
+                <button
+                    class="buy"
+                    id="buy-Osso"
+                    onclick="buyItem('Osso especial',15)">
+
+                    ⭐ 15
+
+                </button>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="item-icon">
+                    🎀
+                </div>
+
+                <div class="item-name">
+                    Laço rosa
+                </div>
+
+                <button
+                    class="buy"
+                    id="buy-Laco"
+                    onclick="buyItem('Laço rosa',30)">
+
+                    ⭐ 30
+
+                </button>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="item-icon">
+                    🛏️
+                </div>
+
+                <div class="item-name">
+                    Caminha
+                </div>
+
+                <button
+                    class="buy"
+                    id="buy-Cama"
+                    onclick="buyItem('Caminha macia',40)">
+
+                    ⭐ 40
+
+                </button>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="item-icon">
+                    ⚽
+                </div>
+
+                <div class="item-name">
+                    Bolinha
+                </div>
+
+                <button
+                    class="buy"
+                    id="buy-Bola"
+                    onclick="buyItem('Bolinha',25)">
+
+                    ⭐ 25
+
+                </button>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="item-icon">
+                    👑
+                </div>
+
+                <div class="item-name">
+                    Coroa
+                </div>
+
+                <button
+                    class="buy"
+                    id="buy-Coroa"
+                    onclick="buyItem('Coroa de rei',60)">
+
+                    ⭐ 60
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- INVENTÁRIO -->
+
+    <div class="section">
+
+        <div class="section-title">
+
+            <h3>🎒 Meu quarto</h3>
+
+        </div>
+
+        <div
+            class="inventory"
+            id="inventory">
+
+            <span class="small">
+                Você ainda não comprou nada.
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- MISSÕES -->
+
+    <div class="section">
+
+        <div class="section-title">
+
+            <h3>🏆 Missões</h3>
+
+        </div>
+
+
+        <div class="mission">
+
+            <strong>
+                ❤️ Faça carinho 3 vezes
+            </strong>
+
+            Recompensa: ⭐ 15
+
+            <span id="missionPet">
+                0/3
+            </span>
+
+        </div>
+
+
+        <div class="mission">
+
+            <strong>
+                🍖 Alimente seu pet
+            </strong>
+
+            Recompensa: ⭐ 10
+
+            <span id="missionFeed">
+                0/1
+            </span>
+
+        </div>
+
+
+        <div class="mission">
+
+            <strong>
+                🛁 Dê um banho
+            </strong>
+
+            Recompensa: ⭐ 15
+
+            <span id="missionBath">
+                0/1
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- EXTRAS -->
+
+    <div class="section">
+
+        <div class="section-title">
+
+            <h3>✨ Extras</h3>
+
+        </div>
+
+        <div class="extra-buttons">
+
+            <button
+                class="extra"
+                onclick="resetGame()">
+
+                🔄 Reiniciar
+
+            </button>
+
+            <button
+                class="extra"
+                onclick="showInfo()">
+
+                💡 Como jogar
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div id="toast"></div>
+
+
+<!-- MODAL NOME -->
+
+<div class="modal" id="nameModal">
+
+    <div class="modal-box">
+
+        <h2>🐶 Nome do seu pet</h2>
+
+        <input
+            id="nameInput"
+            type="text"
+            maxlength="15"
+            placeholder="Digite um nome...">
+
+        <div class="modal-buttons">
+
+            <button
+                class="cancel"
+                onclick="closeNameModal()">
+
+                Cancelar
+
+            </button>
+
+            <button
+                class="save-name"
+                onclick="saveName()">
+
+                Salvar 💗
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ========================================
+   ESTADO DO JOGO
+======================================== */
+
+let state = {
+
+    petName:"Puppy",
+
+    coins:100,
+
+    day:1,
+
+    happiness:90,
+
+    hunger:85,
+
+    thirst:85,
+
+    cleanliness:75,
+
+    energy:80,
+
+    inventory:[],
+
+    isSleeping:false,
+
+    petCount:0,
+
+    feedCount:0,
+
+    bathCount:0
+
+};
+
+
+/* ========================================
+   CARREGAR
+======================================== */
+
+function loadGame(){
+
+    const saved =
+        localStorage.getItem("puppyWorldSave");
+
+    if(saved){
+
+        try{
+
+            state = {
+                ...state,
+                ...JSON.parse(saved)
+            };
+
+        }catch(error){
+
+            console.log("Erro ao carregar jogo.");
+
+        }
+
+    }
+
+    update();
+
+}
+
+
+/* ========================================
+   SALVAR
+======================================== */
+
+function saveGame(){
+
+    localStorage.setItem(
+        "puppyWorldSave",
+        JSON.stringify(state)
+    );
+
+}
+
+
+/* ========================================
+   LIMITAR NÚMEROS
+======================================== */
+
+function clamp(value){
+
+    return Math.max(
+        0,
+        Math.min(100,value)
+    );
+
+}
+
+
+/* ========================================
+   ATUALIZAR TELA
+======================================== */
+
+function update(){
+
+    state.happiness = clamp(state.happiness);
+    state.hunger = clamp(state.hunger);
+    state.thirst = clamp(state.thirst);
+    state.cleanliness = clamp(state.cleanliness);
+    state.energy = clamp(state.energy);
+
+    document.getElementById("coins").textContent =
+        state.coins;
+
+    document.getElementById("day").textContent =
+        state.day;
+
+    document.getElementById("petName").textContent =
+        state.petName;
+
+    document.getElementById("petNameTitle").textContent =
+        state.petName;
+
+
+    /* STATUS */
+
+    setBar(
+        "happy",
+        state.happiness
+    );
+
+    setBar(
+        "hunger",
+        state.hunger
+    );
+
+    setBar(
+        "thirst",
+        state.thirst
+    );
+
+    setBar(
+        "clean",
+        state.cleanliness
+    );
+
+    setBar(
+        "energy",
+        state.energy
+    );
+
+
+    /* CENÁRIO */
+
+    updateScene();
+
+
+    /* INVENTÁRIO */
+
+    updateInventory();
+
+
+    /* LOJA */
+
+    updateShop();
+
+
+    /* MISSÕES */
+
+    document.getElementById("missionPet")
+        .textContent =
+        Math.min(state.petCount,3) + "/3";
+
+    document.getElementById("missionFeed")
+        .textContent =
+        Math.min(state.feedCount,1) + "/1";
+
+    document.getElementById("missionBath")
+        .textContent =
+        Math.min(state.bathCount,1) + "/1";
+
+
+    /* SONO */
+
+    const sleepButton =
+        document.getElementById("sleepButton");
+
+    const wakeButton =
+        document.getElementById("wakeButton");
+
+    const dogWrapper =
+        document.getElementById("dogWrapper");
+
+
+    if(state.isSleeping){
+
+        sleepButton.disabled = true;
+
+        wakeButton.classList.add("show");
+
+        dogWrapper.classList.add("sleeping");
+
+    }else{
+
+        sleepButton.disabled = false;
+
+        wakeButton.classList.remove("show");
+
+        dogWrapper.classList.remove("sleeping");
+
+    }
+
+
+    saveGame();
+
+}
+
+
+/* ========================================
+   BARRAS
+======================================== */
+
+function setBar(name,value){
+
+    const bar =
+        document.getElementById(name+"Bar");
+
+    const text =
+        document.getElementById(name+"Value");
+
+    if(bar){
+
+        bar.style.width =
+            value + "%";
+
+    }
+
+    if(text){
+
+        text.textContent =
+            Math.round(value);
+
+    }
+
+}
+
+
+/* ========================================
+   CENÁRIO
+======================================== */
+
+function updateScene(){
+
+    const bed =
+        document.getElementById("sceneBed");
+
+    const teddy =
+        document.getElementById("sceneTeddy");
+
+    const ball =
+        document.getElementById("sceneBall");
+
+    const bow =
+        document.getElementById("dogBow");
+
+    const crown =
+        document.getElementById("dogCrown");
+
+
+    bed.style.display =
+        state.inventory.includes("Caminha macia")
+        ? "block"
+        : "none";
+
+
+    teddy.style.display =
+        state.inventory.includes("Ursinho")
+        ? "block"
+        : "none";
+
+
+    ball.style.display =
+        state.inventory.includes("Bolinha")
+        ? "block"
+        : "none";
+
+
+    bow.style.display =
+        state.inventory.includes("Laço rosa")
+        ? "block"
+        : "none";
+
+
+    crown.style.display =
+        state.inventory.includes("Coroa de rei")
+        ? "block"
+        : "none";
+
+}
+
+
+/* ========================================
+   INVENTÁRIO
+======================================== */
+
+function updateInventory(){
+
+    const inventory =
+        document.getElementById("inventory");
+
+    if(state.inventory.length === 0){
+
+        inventory.innerHTML =
+            `<span class="small">
+                Você ainda não comprou nada.
+             </span>`;
+
+        return;
+
+    }
+
+
+    inventory.innerHTML =
+        state.inventory.map(item => {
+
+            const icons = {
+
+                "Ursinho":"🧸",
+
+                "Osso especial":"🦴",
+
+                "Laço rosa":"🎀",
+
+                "Caminha macia":"🛏️",
+
+                "Bolinha":"⚽",
+
+                "Coroa de rei":"👑"
+
+            };
+
+            return `
+                <span class="inv">
+                    ${icons[item] || "🎁"} ${item}
+                </span>
+            `;
+
+        }).join("");
+
+}
+
+
+/* ========================================
+   LOJA
+======================================== */
+
+function updateShop(){
+
+    const buttons =
+        document.querySelectorAll(".buy");
+
+    buttons.forEach(button => {
+
+        let item = "";
+
+        if(button.id === "buy-Ursinho")
+            item = "Ursinho";
+
+        if(button.id === "buy-Osso")
+            item = "Osso especial";
+
+        if(button.id === "buy-Laco")
+            item = "Laço rosa";
+
+        if(button.id === "buy-Cama")
+            item = "Caminha macia";
+
+        if(button.id === "buy-Bola")
+            item = "Bolinha";
+
+        if(button.id === "buy-Coroa")
+            item = "Coroa de rei";
+
+
+        if(state.inventory.includes(item)){
+
+            button.textContent =
+                "✓ Comprado";
+
+            button.classList.add("owned");
+
+        }else{
+
+            const prices = {
+
+                "Ursinho":20,
+
+                "Osso especial":15,
+
+                "Laço rosa":30,
+
+                "Caminha macia":40,
+
+                "Bolinha":25,
+
+                "Coroa de rei":60
+
+            };
+
+            button.textContent =
+                "⭐ " + prices[item];
+
+            button.classList.remove("owned");
+
+        }
+
+    });
+
+}
+
+
+/* ========================================
+   COMPRAR
+======================================== */
+
+function buyItem(name,price){
+
+    if(state.inventory.includes(name)){
+
+        toast("Você já tem esse item! 💗");
+
+        return;
+
+    }
+
+
+    if(state.coins < price){
+
+        toast(
+            "Você ainda não tem estrelas suficientes! ⭐"
+        );
+
+        return;
+
+    }
+
+
+    state.coins -= price;
+
+    state.inventory.push(name);
+
+
+    toast(
+        name + " chegou ao quartinho! 🎁🏡"
+    );
+
+
+    if(name === "Caminha macia"){
+
+        speak(
+            "Minha caminha nova! 🥹🛏️"
+        );
+
+    }
+
+    else if(name === "Laço rosa"){
+
+        speak(
+            "Eu fiquei lindo! 🎀🐶"
+        );
+
+    }
+
+    else if(name === "Bolinha"){
+
+        speak(
+            "BOLINHAAAA! ⚽🐶"
+        );
+
+    }
+
+    else if(name === "Ursinho"){
+
+        speak(
+            "Um amiguinho! 🧸💕"
+        );
+
+    }
+
+
+    update();
+
+}
+
+
+/* ========================================
+   CARINHO
+======================================== */
+
+function petClick(){
+
+    if(state.isSleeping){
+
+        toast(
+            "Shhh... o Puppy está dormindo. 😴"
+        );
+
+        return;
+
+    }
+
+
+    state.petCount++;
+
+    state.happiness =
+        clamp(state.happiness + 7);
+
+    state.energy =
+        clamp(state.energy + 2);
+
+
+    speak(
+        "Aaaah, carinho! Eu amo! 🥹❤️"
+    );
+
+
+    toast(
+        "Seu pet ficou muito feliz! 💗"
+    );
+
+
+    if(state.petCount === 3){
+
+        state.coins += 15;
+
+        toast(
+            "Missão concluída! +15 ⭐"
+        );
+
+    }
+
+
+    update();
+
+}
+
+
+/* ========================================
+   COMIDA
+======================================== */
+
+function feedPet(){
+
+    if(state.isSleeping){
+
+        toast(
+            "O Puppy está dormindo. 😴"
+        );
+
+        return;
+
+    }
+
+
+    state.hunger =
+        clamp(state.hunger + 25);
+
+    state.happiness =
+        clamp(state.happiness + 4);
+
+    state.feedCount++;
+
+
+    speak(
+        "NHAM NHAM! 🍖😋"
+    );
+
+
+    toast(
+        "O Puppy comeu tudinho! 🍖"
+    );
+
+
+    if(state.feedCount === 1){
+
+        state.coins += 10;
+
+        toast(
+            "Missão concluída! +10 ⭐"
+        );
+
+    }
+
+
+    update();
+
+}
+
+
+/* ========================================
+   ÁGUA
+======================================== */
+
+function giveWater(){
+
+    if(state.isSleeping){
+
+        toast(
+            "O Puppy está dormindo. 😴"
+        );
+
+        return;
+
+    }
+
+
+    state.thirst =
+        clamp(state.thirst + 30);
+
+
+    state.happiness =
+        clamp(state.happiness + 3);
+
+
+    speak(
+        "Glup glup! 💧🐶"
+    );
+
+
+    toast(
+        "Água fresquinha! 💧"
+    );
+
+
+    update();
+
+}
+
+
+/* ========================================
+   BANHO
+======================================== */
+
+function bathPet(){
+
+    if(state.isSleeping){
+
+        toast(
+            "Não dá banho no Puppy dormindo! 😂"
+        );
+
+        return;
+
+    }
+
+
+    state.cleanliness =
+        clamp(state.cleanliness + 40);
+
+
+    state.happiness =
+        clamp(state.happiness + 5);
+
+
+    state.bathCount++;
+
+
+    speak(
+        "Agora estou cheirosinho! 🛁✨"
+    );
+
+
+    toast(
+        "Banho tomado! 🫧🐶"
+    );
+
+
+    if(state.bathCount === 1){
+
+        state.coins += 15;
+
+        toast(
+            "Missão concluída! +15 ⭐"
+        );
+
+    }
+
+
+    update();
+
+}
+
+
+/* ========================================
+   BRINCAR
+======================================== */
+
+function playPet(){
+
+    if(state.isSleeping){
+
+        toast(
+            "O Puppy está dormindo. 😴"
+        );
+
+        return;
+
+    }
+
+
+    if(state.energy < 15){
+
+        toast(
+            "O Puppy está cansado! ⚡"
+        );
+
+        speak(
+            "Preciso descansar... 🥺"
+        );
+
+        return;
+
+    }
+
+
+    state.happiness =
+        clamp(state.happiness + 18);
+
+
+    state.energy =
+        clamp(state.energy - 15);
+
+
+    state.hunger =
+        clamp(state.hunger - 5);
+
+
+    speak(
+        "EEEE! VAMOS BRINCAR! 🎾🐶"
+    );
+
+
+    toast(
+        "Foi muito divertido! 🎉"
+    );
+
+
+    animateDog();
+
+
+    update();
+
+}
+
+
+/* ========================================
+   BOLINHA
+======================================== */
+
+function playWithBall(){
+
+    if(!state.inventory.includes("Bolinha")){
+
+        return;
+
+    }
+
+
+    if(state.isSleeping){
+
+        toast(
+            "O Puppy está dormindo. 😴"
+        );
+
+        return;
+
+    }
+
+
+    const dog =
+        document.getElementById("dogWrapper");
+
+
+    dog.style.transform =
+        "translate(-120px,-45%)";
+
+
+    speak(
+        "PEGUEI A BOLINHA! ⚽🐶"
+    );
+
+
+    state.happiness =
+        clamp(state.happiness + 12);
+
+
+    state.energy =
+        clamp(state.energy - 8);
+
+
+    toast(
+        "O Puppy correu atrás da bolinha! ⚽"
+    );
+
+
+    setTimeout(() => {
+
+        dog.style.transform =
+            "translate(-50%,-45%)";
+
+    },1200);
+
+
+    update();
+
+}
+
+
+/* ========================================
+   ANIMAÇÃO
+======================================== */
+
+function animateDog(){
+
+    const dog =
+        document.getElementById("pet");
+
+    dog.style.transform =
+        "scale(1.18) rotate(-5deg)";
+
+    setTimeout(() => {
+
+        dog.style.transform =
+            "";
+
+    },500);
+
+}
+
+
+/* ========================================
+   FALA
+======================================== */
+
+function speak(message){
+
+    const speech =
+        document.getElementById("speech");
+
+    speech.textContent =
+        message;
+
+
+    speech.style.transform =
+        "translateX(-50%) scale(1.05)";
+
+
+    setTimeout(() => {
+
+        speech.style.transform =
+            "translateX(-50%) scale(1)";
+
+    },200);
+
+}
+
+
+/* ========================================
+   TOAST
+======================================== */
+
+let toastTimer;
+
+function toast(message){
+
+    const element =
+        document.getElementById("toast");
+
+
+    element.textContent =
+        message;
+
+
+    element.classList.add("show");
+
+
+    clearTimeout(toastTimer);
+
+
+    toastTimer =
+        setTimeout(() => {
+
+            element.classList.remove("show");
+
+        },2500);
+
+}
+
+
+/* ========================================
+   DORMIR
+======================================== */
+
+function sleepPet(){
+
+    if(state.isSleeping){
+
+        return;
+
+    }
+
+
+    if(!state.inventory.includes("Caminha macia")){
+
+        toast(
+            "Seu pet precisa de uma caminha para dormir! 🛏️"
+        );
+
+        speak(
+            "Onde vou dormir? 🥺"
+        );
+
+        return;
+
+    }
+
+
+    state.isSleeping = true;
+
+
+    const dogWrapper =
+        document.getElementById("dogWrapper");
+
+    const sleepButton =
+        document.getElementById("sleepButton");
+
+    const wakeButton =
+        document.getElementById("wakeButton");
+
+
+    dogWrapper.classList.add("sleeping");
+
+    sleepButton.disabled = true;
+
+    wakeButton.classList.add("show");
+
+
+    speak(
+        "Boa noite... Zzz... 🌙💤"
+    );
+
+
+    toast(
+        "Seu amiguinho foi dormir... 💤"
+    );
+
+
+    update();
+
+}
+
+
+/* ========================================
+   ACORDAR
+======================================== */
+
+function wakePet(){
+
+    if(!state.isSleeping){
+
+        return;
+
+    }
+
+
+    state.isSleeping = false;
+
+
+    const dogWrapper =
+        document.getElementById("dogWrapper");
+
+    const sleepButton =
+        document.getElementById("sleepButton");
+
+    const wakeButton =
+        document.getElementById("wakeButton");
+
+
+    dogWrapper.classList.remove("sleeping");
+
+    sleepButton.disabled = false;
+
+    wakeButton.classList.remove("show");
+
+
+    state.energy =
+        clamp(state.energy + 40);
+
+
+    state.happiness =
+        clamp(state.happiness + 10);
+
+
+    speak(
+        "BOM DIAAA! ☀️🐶"
+    );
+
+
+    toast(
+        "Seu amiguinho acordou cheio de energia! ⚡"
+    );
+
+
+    update();
+
+}
+
+
+/* ========================================
+   NOME
+======================================== */
+
+function openNameModal(){
+
+    const modal =
+        document.getElementById("nameModal");
+
+    const input =
+        document.getElementById("nameInput");
+
+
+    input.value =
+        state.petName;
+
+
+    modal.classList.add("show");
+
+
+    setTimeout(() => {
+
+        input.focus();
+
+    },100);
+
+}
+
+
+function closeNameModal(){
+
+    document
+        .getElementById("nameModal")
+        .classList.remove("show");
+
+}
+
+
+function saveName(){
+
+    const input =
+        document.getElementById("nameInput");
+
+
+    const name =
+        input.value.trim();
+
+
+    if(!name){
+
+        toast(
+            "Digite um nome para o Puppy! 🐶"
+        );
+
+        return;
+
+    }
+
+
+    state.petName =
+        name;
+
+
+    closeNameModal();
+
+
+    speak(
+        "Meu nome é " + name + "! 🐶💗"
+    );
+
+
+    toast(
+        "Nome alterado! ✨"
+    );
+
+
+    update();
+
+}
+
+
+/* ========================================
+   INFORMAÇÕES
+======================================== */
+
+function showInfo(){
+
+    speak(
+        "Cuide de mim todos os dias! 🐶💕"
+    );
+
+
+    toast(
+        "Coma, beba água, tome banho, brinque e durma! 🐾"
+    );
+
+}
+
+
+/* ========================================
+   REINICIAR
+======================================== */
+
+function resetGame(){
+
+    const confirmReset =
+        confirm(
+            "Tem certeza que quer apagar seu progresso?"
+        );
+
+
+    if(!confirmReset){
+
+        return;
+
+    }
+
+
+    localStorage.removeItem(
+        "puppyWorldSave"
+    );
+
+
+    location.reload();
+
+}
+
+
+/* ========================================
+   PASSAGEM DO TEMPO
+======================================== */
+
+setInterval(() => {
+
+    if(state.isSleeping){
+
+        state.energy =
+            clamp(state.energy + 3);
+
+        state.hunger =
+            clamp(state.hunger - 1);
+
+        state.thirst =
+            clamp(state.thirst - 1);
+
+    }else{
+
+        state.hunger =
+            clamp(state.hunger - 1);
+
+        state.thirst =
+            clamp(state.thirst - 1);
+
+        state.cleanliness =
+            clamp(state.cleanliness - .5);
+
+        state.energy =
+            clamp(state.energy - .5);
+
+    }
+
+
+    if(state.hunger < 30){
+
+        state.happiness =
+            clamp(state.happiness - 1);
+
+    }
+
+
+    if(state.thirst < 30){
+
+        state.happiness =
+            clamp(state.happiness - 1);
+
+    }
+
+
+    if(state.happiness < 20){
+
+        speak(
+            "Estou tristinho... 🥺"
+        );
+
+    }
+
+
+    update();
+
+},30000);
+
+
+/* ========================================
+   NOVO DIA
+======================================== */
+
+setInterval(() => {
+
+    state.day++;
+
+    state.coins += 10;
+
+
+    toast(
+        "🌞 Um novo dia começou! +10 ⭐"
+    );
+
+
+    speak(
+        "Bom dia! Vamos aproveitar o dia! 🐶"
+    );
+
+
+    update();
+
+},120000);
+
+
+/* ========================================
+   INICIAR
+======================================== */
+
+loadGame();
+
+</script>
+
+</body>
+</html>
